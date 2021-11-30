@@ -1,0 +1,1 @@
+This branch of the project is the work-in-progress version to be (hopefully) published in the Middlebury Campus newspaper. The final iteration due for the data visualization class is stored on the `main` branch of the repository.
