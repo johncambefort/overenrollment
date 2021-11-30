@@ -429,12 +429,11 @@ async function manageVisualizations() {
           let fy_regs_21 = data["first_f21"];
           
           update_data(data["pop_f21"], 0, "green", false, false, true); // color in all standard students
-          update_data(fy_regs_21, 0, "#FFB000", false, false, true); // regs
+          let index_regs = update_data(fy_regs_21, 0, "#FFB000", false, false, true); // regs 
+          update_data(data["time_off"], index_regs, "#A5C882", true, false, true, true); // 1st years who deferred
 
-          let next_ind = Math.round((data["pop_f21"] - data["loa"] - data["time_off"]) / 50);
-          let index15 = update_data(data["loa"], next_ind, "#5AB1BB", true, false, true, true);
-          let index16 = update_data(data["time_off"], index15, "#A5C882", true, false, true, false, true);
-
+          let next_ind = Math.round((data["pop_f21"] - data["loa"]) / 50);
+          let index16 = update_data(data["loa"], next_ind, "#5AB1BB", true, false, true, false, true);
           update_data(dataset.length * 50 - data["pop_f21"], index16, "", false, false, false); // remove anyone else
           
           update_visualization(svg, dataset);
