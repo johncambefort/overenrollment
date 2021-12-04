@@ -94,6 +94,59 @@ function create_person(g) {
    
 }
 
+function create_person_at_coords(g, x, y) {
+  // let x = x;
+  // const y = y;
+  const scale = 0.8;
+
+  g.attr("class", "person");
+
+  g.append("circle")
+    .attr("cx", x * scale)
+    .attr("cy", (y - 20 ) * scale)
+    .attr("r", 10 * scale)
+    .style("fill", "none")
+    .style("stroke-width", 5 * scale);
+
+  g.append("line")
+    .attr("x1", x * scale)
+    .attr("x2", x * scale)
+    .attr("y1", (y - 10) * scale)
+    .attr("y2", (y + 10) * scale)
+    .style("stroke-width", 5 * scale);
+
+  g.append("line")
+    .attr("x1", x * scale)
+    .attr("x2", (x + 15) * scale)
+    .attr("y1", y * scale)
+    .attr("y2", (y - 10) * scale)
+    .style("stroke-width", 5 * scale);
+
+  g.append("line")
+    .attr("x1", x * scale)
+    .attr("x2", (x - 15) * scale)
+    .attr("y1", y * scale)
+    .attr("y2", (y - 10) * scale)
+    .style("stroke-width", 5 * scale);
+
+  g.append("line")
+    .attr("x1", x * scale)
+    .attr("x2", (x + 10) * scale)
+    .attr("y1", (y + 10) * scale)
+    .attr("y2", (y + 30) * scale)
+    .style("stroke-width", 5 * scale);
+
+  g.append("line")
+    .attr("x1", x * scale)
+    .attr("x2", (x - 10) * scale)
+    .attr("y1", (y + 10) * scale)
+    .attr("y2", (y + 30) * scale)
+    .style("stroke-width", 5 * scale);
+
+  return g;
+   
+}
+
 // Makes the box to outline typical campus capacity (2500)
 function make_box(svg, top, width, height, margins, stroke) {
   
@@ -101,20 +154,18 @@ function make_box(svg, top, width, height, margins, stroke) {
     .append("g")
     .attr("opacity", 0)
     .attr("shape-rendering", "crispEdges")
-    .style("stroke", "black")
-    .style("stroke-width", stroke);
+    .attr("stroke", "black")
+    .attr("stroke-width", stroke);
 
   box // top line
-    .append("g")
     .append("line")
     .attr("x1", 0)
     .attr("x2", width)
     .attr("y1", top)
-    .attr("y2", top)
+    .attr("y2", top);
 
     
   box // right-down line
-    .append("g")
     .append("line")
     .attr("x1", width)
     .attr("x2", width)
@@ -122,7 +173,6 @@ function make_box(svg, top, width, height, margins, stroke) {
     .attr("y2", height - 68);
 
   box // bottom right line
-    .append("g")
     .append("line")
     .attr("x1", width)
     .attr("x2", 95)
@@ -130,7 +180,6 @@ function make_box(svg, top, width, height, margins, stroke) {
     .attr("y2", height - 68);
 
   box // small down right line
-    .append("g")
     .append("line")
     .attr("x1", 95)
     .attr("x2", 95)
@@ -138,7 +187,6 @@ function make_box(svg, top, width, height, margins, stroke) {
     .attr("y2", height);
 
   box // small bottom-most line
-    .append("g")
     .append("line")
     .attr("x1", 95)
     .attr("x2", 0)
@@ -146,7 +194,6 @@ function make_box(svg, top, width, height, margins, stroke) {
     .attr("y2", height);
 
   box // left line
-    .append("g")
     .append("line")
     .attr("x1", 0)
     .attr("x2", 0)
@@ -160,8 +207,8 @@ function make_box(svg, top, width, height, margins, stroke) {
 async function manageVisualizations() {
   const width = 500;
   const height = 500;
-  const timelineHeight = height - 150;
-  const timelineWidth = 200;
+  const timelineHeight = height;
+  const timelineWidth = 250;
   const margins = { left: 10, top: 20, right: 30, bottom: 20, padding: 2.3 * height / 12 }
   
   const offCampusHeight = 2 * height / 12;
@@ -189,38 +236,59 @@ async function manageVisualizations() {
     .style("height", `${timelineHeight}px`)
     .style("width", `${timelineWidth}px`);
 
-  const graphLabel = svg_timeline
+  const timelinePerson = svg_timeline
     .append("g")
     .style("stroke", "black")
     .attr("opacity", 1)
-    .each(function (d, i) {
-      create_person(d3.select(this));
+    .each(function(d, i) {
+      create_person(d3.select(this))
     })
-    .attr("transform", `translate(50, 50)`);
-
-  // append a stickfigure to the graphLabel    
-
-
-  // graphLabel.text("1 stick-figure = 50 students");
-
-  const onCampusTextNumber = d3
-    .select("#timeline")
+    .attr("transform", `translate(35, ${timelineHeight - margins.bottom - 10})`)
+    
+  let timelinePersonLabel = svg_timeline
+    .append("g")
     .append("text")
-    .attr("text-anchor", "middle")
+    .attr("transform", `translate(55, ${timelineHeight - margins.bottom - 10})`)
+    .attr("text-anchor", "start")
     .style("font-weight", "bold")
     .style("font-size", "24px")
-    .text(`On Campus: `)
-    .append("text");
+    .text("= 50 students");
 
-  const offCampusTextNumber = d3
-    .select("#timeline")
+
+  svg_timeline
+    .append("g")
     .append("text")
-    .attr("text-anchor", "middle")
+    .attr("transform", `translate(20, ${margins.top + 30})`)
+    .attr("text-anchor", "start")
     .style("font-weight", "bold")
     .style("font-size", "24px")
-    .text(`Off Campus: `)
-    .append("text");
+    .text(`On Campus: `);
 
+  svg_timeline
+    .append("g")
+    .append("text")
+    .attr("transform", `translate(20, ${timelineHeight - margins.bottom - 50})`)
+    .attr("text-anchor", "start")
+    .style("font-weight", "bold")
+    .style("font-size", "24px")
+    .text(`Off Campus: `);
+  
+  let onCampusTextNumber = svg_timeline
+    .append("g")
+    .append("text")
+    .attr("transform", `translate(160, ${margins.top + 30})`)
+    .attr("text-anchor", "start")
+    .style("font-weight", "bold")
+    .style("font-size", "24px");
+  
+
+  let offCampusTextNumber = svg_timeline
+    .append("g")
+    .append("text")
+    .attr("transform", `translate(160, ${timelineHeight - margins.bottom - 50})`)
+    .attr("text-anchor", "start")
+    .style("font-weight", "bold")
+    .style("font-size", "24px");
 
   const innerOnCampusGraph = svg
     .append("g")
@@ -323,11 +391,11 @@ async function manageVisualizations() {
         box.transition().duration(speed).attr("opacity", 0);
         
         // show campus on a typical year, with study abroad people
-        graphLabel.text("1 stick-figure = 50 students");
+        // graphLabel.text("1 stick-figure = 50 students");
         onCampusTextNumber
           .text(`${data["pop_f18"]}`)
-          .style("color", colors.default);
-        offCampusTextNumber.text("300").style("color", colors.abroad);
+          .style("fill", colors.default);
+        offCampusTextNumber.text("300").style("fill", colors.abroad);
 
         let index_on = update_data(
           on_campus_dataset,
@@ -356,11 +424,11 @@ async function manageVisualizations() {
 
       case 1: // introduce the box
         box.transition().duration(speed).attr("opacity", 1);
-        graphLabel.text("1 stick-figure = 50 students");
         onCampusTextNumber
           .text(`${data["pop_f18"]}`)
-          .style("color", colors.default);
-        offCampusTextNumber.text("300").style("color", colors.abroad);
+          .style("fill", colors.default);
+
+        offCampusTextNumber.text("300").style("fill", colors.abroad);
 
         let step2_index_on = update_data(
           on_campus_dataset,
@@ -388,13 +456,13 @@ async function manageVisualizations() {
 
       case 2:
         // fast forward to spring 2021 -- show on-campus & remote students
-        graphLabel.text("1 stick-figure = 50 students");
+        // graphLabel.text("1 stick-figure = 50 students");
         onCampusTextNumber
           .text(`${data["pop_in_person_s21"]}`)
-          .style("color", colors.default);
+          .style("fill", colors.default);
         offCampusTextNumber
           .text(`${data["pop_remote_s21"]}`)
-          .style("color", colors.remote);
+          .style("fill", colors.remote);
 
         index_ons21 = update_data(
           on_campus_dataset,
@@ -423,13 +491,13 @@ async function manageVisualizations() {
 
       case 3: // Spring 2021 -- add loa and time_off students
         box.transition().duration(speed).attr("opacity", 1);
-        graphLabel.text("1 stick-figure = 50 students");
+        // graphLabel.text("1 stick-figure = 50 students");
         onCampusTextNumber
           .text(`${data["pop_in_person_s21"]}`)
-          .style("color", colors.default);
+          .style("fill", colors.default);
         offCampusTextNumber
           .text(`${data["pop_remote_s21"] + data["time_off"] + data["loa"]}`)
-          .style("color", "black"); // back to black?
+          .style("fill", "black"); // back to black?
 
         hackyOffCampusGraph
           .transition()
@@ -499,13 +567,13 @@ async function manageVisualizations() {
 
       case 4: // just move around the different g's
         box.transition().duration(speed).attr("opacity", 1);
-        graphLabel.text("1 stick-figure = 50 students");
+        // graphLabel.text("1 stick-figure = 50 students");
         onCampusTextNumber
           .text(`${data["pop_f21"]}`)
-          .style("color", colors.default);
+          .style("fill", colors.default);
         offCampusTextNumber
           .text(`${data["abroad_f21"]}`)
-          .style("color", colors.abroad);
+          .style("fill", colors.abroad);
 
         update_data(hacky_dataset, data["abroad_f21"], 0, colors.abroad, true);
 
@@ -575,13 +643,13 @@ async function manageVisualizations() {
 
       case 5:
         box.transition().duration(speed).attr("opacity", 1);
-        graphLabel.text("1 stick-figure = 50 students");
+        // graphLabel.text("1 stick-figure = 50 students");
         onCampusTextNumber
           .text(`${data["pop_f21"]}`)
-          .style("color", colors.default);
+          .style("fill", colors.default);
         offCampusTextNumber
           .text(`${data["abroad_f21"]}`)
-          .style("color", colors.abroad);
+          .style("fill", "black"); // back to black?
 
         update_data(hacky_dataset, data["abroad_f21"], 0, colors.abroad, true);
 
