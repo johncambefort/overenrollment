@@ -585,9 +585,17 @@ async function manageVisualizations() {
         update_data(hacky_dataset, data["abroad_f21"], 0, colors.abroad, true);
 
         innerOffCampusGraph
+          .transition()
+          .delay(2 * speed)
+          .duration(3 * speed)
+          .ease(d3.easeCubicInOut)
           .attr("transform", `translate(${margins.left}, ${margins.top + 5.4 * height / 12})`);
 
         hackyOffCampusGraph
+          .transition()
+          .delay(2 * speed)
+          .duration(3 * speed)
+          .ease(d3.easeCubicInOut)
           .attr("transform", `translate(${margins.left}, ${height - margins.bottom - offCampusHeight})`);
 
         let step5_index_onf21 = update_data(
