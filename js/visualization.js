@@ -43,7 +43,7 @@ function dataCreation() {
 //-------------------------------------------------------------------------
 
 // Generates a stick figure centered at coordinates (x, y)
-create_person = (g) => {
+function create_person(g) {
   const x = 0;
   const y = 0;
   const scale = 0.8;
@@ -96,66 +96,62 @@ create_person = (g) => {
 
 // Makes the box to outline typical campus capacity (2500)
 function make_box(svg, top, width, height, margins, stroke) {
-  let box = svg.append("g").attr("opacity", 0);
-  // let box = svg.append("g").attr("opacity", 1).attr("stroke", "black");
+  
+  let box = svg
+    .append("g")
+    .attr("opacity", 0)
+    .attr("shape-rendering", "crispEdges")
+    .style("stroke", "black")
+    .style("stroke-width", stroke);
 
   box // top line
+    .append("g")
     .append("line")
     .attr("x1", 0)
     .attr("x2", width)
     .attr("y1", top)
     .attr("y2", top)
-    .style("stroke", "black")
-    .style("stroke-width", stroke);
 
     
   box // right-down line
+    .append("g")
     .append("line")
     .attr("x1", width)
     .attr("x2", width)
     .attr("y1", top)
-    .attr("y2", height - 68)
-    .style("stroke", "black")
-    .style("stroke-width", stroke);
-
+    .attr("y2", height - 68);
 
   box // bottom right line
+    .append("g")
     .append("line")
     .attr("x1", width)
     .attr("x2", 95)
     .attr("y1", height - 68)
-    .attr("y2", height - 68)
-    .style("stroke", "black")
-    .style("stroke-width", stroke);
-    // .attr("lineWidth", stroke);
+    .attr("y2", height - 68);
 
   box // small down right line
+    .append("g")
     .append("line")
     .attr("x1", 95)
     .attr("x2", 95)
     .attr("y1", height - 68)
-    .attr("y2", height)
-    .style("stroke", "black")
-    .style("stroke-width", stroke);
-
+    .attr("y2", height);
 
   box // small bottom-most line
+    .append("g")
     .append("line")
     .attr("x1", 95)
     .attr("x2", 0)
     .attr("y1", height)
-    .attr("y2", height)
-    .style("stroke", "black")
-    .style("stroke-width", stroke);
+    .attr("y2", height);
 
   box // left line
+    .append("g")
     .append("line")
     .attr("x1", 0)
     .attr("x2", 0)
     .attr("y1", height)
-    .attr("y2", top)
-    .style("stroke", "black")
-    .style("stroke-width", stroke);
+    .attr("y2", top);
 
   return box;
 }
@@ -193,14 +189,19 @@ async function manageVisualizations() {
     .style("height", `${timelineHeight}px`)
     .style("width", `${timelineWidth}px`);
 
-  const graphLabel = d3
-    .select("#timeline")
-    .append("text")
-    .attr("text-anchor", "middle")
-    .style("font-weight", "bold")
-    .style("font-size", "24px");
+  const graphLabel = svg_timeline
+    .append("g")
+    .style("stroke", "black")
+    .attr("opacity", 1)
+    .each(function (d, i) {
+      create_person(d3.select(this));
+    })
+    .attr("transform", `translate(50, 50)`);
 
-  graphLabel.text("1 stick-figure = 50 students");
+  // append a stickfigure to the graphLabel    
+
+
+  // graphLabel.text("1 stick-figure = 50 students");
 
   const onCampusTextNumber = d3
     .select("#timeline")
