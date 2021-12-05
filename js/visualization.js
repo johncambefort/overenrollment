@@ -236,6 +236,37 @@ async function manageVisualizations() {
     .style("height", `${timelineHeight}px`)
     .style("width", `${timelineWidth}px`);
 
+  // Add time stamp text
+  let typicalYearLabel = svg_timeline
+    .append("g")
+    .append("text")
+    .attr("transform", `translate(${timelineWidth / 2}, ${timelineHeight / 2 - 50})`)
+    .attr("text-anchor", "middle")
+    .style("font-weight", "bold")
+    .style("font-size", "30px")
+    .text("2018-2019");
+
+  let spring2021Label = svg_timeline
+    .append("g")
+    .append("text")
+    .attr("transform", `translate(${timelineWidth / 2}, ${timelineHeight / 2})`)
+    .attr("text-anchor", "middle")
+    .style("font-size", "15px")
+    .text("Spring 2021")
+    .style("opacity", 0.3);
+    // .style("font-weight", "bold")
+
+    let fall2021Label = svg_timeline
+      .append("g")
+      .append("text")
+      .attr("transform", `translate(${timelineWidth / 2}, ${timelineHeight / 2 + 50})`)
+      .attr("text-anchor", "middle")
+      .style("font-size", "15px")
+      .text("Fall 2021")
+      .style("opacity", 0.3);
+      // .style("font-weight", "bold")
+
+
   const timelinePerson = svg_timeline
     .append("g")
     .style("stroke", "black")
@@ -250,11 +281,12 @@ async function manageVisualizations() {
     .append("text")
     .attr("transform", `translate(55, ${timelineHeight - margins.bottom - 10})`)
     .attr("text-anchor", "start")
-    .style("font-weight", "bold")
+    .style("font-weight", "normal")
     .style("font-size", "24px")
     .text("= 50 students");
 
 
+  // Add on & off campus text labels
   svg_timeline
     .append("g")
     .append("text")
@@ -391,7 +423,6 @@ async function manageVisualizations() {
         box.transition().duration(speed).attr("opacity", 0);
         
         // show campus on a typical year, with study abroad people
-        // graphLabel.text("1 stick-figure = 50 students");
         onCampusTextNumber
           .text(`${data["pop_f18"]}`)
           .style("fill", colors.default);
@@ -424,6 +455,23 @@ async function manageVisualizations() {
 
       case 1: // introduce the box
         box.transition().duration(speed).attr("opacity", 1);
+
+        // Time Labels
+
+        typicalYearLabel
+          .transition()
+          .duration(speed)
+          .style("font-weight", "bold")
+          .style("font-size", "30px")
+          .style("opacity", 1);
+
+        spring2021Label
+          .transition()
+          .duration(speed)
+          .style("font-weight", "normal")
+          .style("font-size", "15px")
+          .style("opacity", .3);
+
         onCampusTextNumber
           .text(`${data["pop_f18"]}`)
           .style("fill", colors.default);
@@ -454,9 +502,23 @@ async function manageVisualizations() {
         update_visualization(innerOffCampusGraph, off_campus_dataset);
         break;
 
-      case 2:
-        // fast forward to spring 2021 -- show on-campus & remote students
-        // graphLabel.text("1 stick-figure = 50 students");
+      case 2: // fast forward to spring 2021 -- show on-campus & remote students
+
+        // Time Labels
+        typicalYearLabel
+          .transition()
+          .duration(speed)
+          .style("font-weight", "normal")
+          .style("font-size", "15px")
+          .style("opacity", .3);
+
+        spring2021Label
+          .transition()
+          .duration(speed)
+          .style("font-weight", "bold")
+          .style("font-size", "30px")
+          .style("opacity", 1);
+
         onCampusTextNumber
           .text(`${data["pop_in_person_s21"]}`)
           .style("fill", colors.default);
@@ -491,7 +553,30 @@ async function manageVisualizations() {
 
       case 3: // Spring 2021 -- add loa and time_off students
         box.transition().duration(speed).attr("opacity", 1);
-        // graphLabel.text("1 stick-figure = 50 students");
+
+        // Time Labels
+
+        typicalYearLabel
+          .transition()
+          .duration(speed)
+          .style("font-weight", "normal")
+          .style("font-size", "15px")
+          .style("opacity", .3);
+
+        spring2021Label
+          .transition()
+          .duration(speed)
+          .style("font-weight", "bold")
+          .style("font-size", "30px")
+          .style("opacity", 1);
+
+        fall2021Label
+          .transition()
+          .duration(speed)
+          .style("font-weight", "normal")
+          .style("font-size", "15px")
+          .style("opacity", .3);
+
         onCampusTextNumber
           .text(`${data["pop_in_person_s21"]}`)
           .style("fill", colors.default);
@@ -501,7 +586,7 @@ async function manageVisualizations() {
 
         hackyOffCampusGraph
           .transition()
-          .duration(3 * speed)
+          .duration(2 * speed)
           .ease(d3.easeLinear)
           .attr("transform", `translate(${margins.left}, ${height + 1000})`);
 
@@ -567,10 +652,33 @@ async function manageVisualizations() {
 
       case 4: // just move around the different g's
         box.transition().duration(speed).attr("opacity", 1);
-        // graphLabel.text("1 stick-figure = 50 students");
+
+        // Time Labels
+
+        typicalYearLabel
+          .transition()
+          .duration(speed)
+          .style("font-weight", "normal")
+          .style("font-size", "15px")
+          .style("opacity", .3);
+
+        spring2021Label
+          .transition()
+          .duration(speed)
+          .style("font-weight", "normal")
+          .style("font-size", "15px")
+          .style("opacity", .3);
+
+        fall2021Label
+          .transition()
+          .duration(speed)
+          .style("font-weight", "bold")
+          .style("font-size", "30px")
+          .style("opacity", 1);
+
         onCampusTextNumber
           .text(`${data["pop_f21"]}`)
-          .style("fill", colors.default);
+          .style("fill", "black");
         offCampusTextNumber
           .text(`${data["abroad_f21"]}`)
           .style("fill", colors.abroad);
@@ -627,14 +735,14 @@ async function manageVisualizations() {
 
         innerOffCampusGraph
           .transition()
-          .delay(2 * speed)
+          .delay(speed)
           .duration(3 * speed)
           .ease(d3.easeCubicInOut)
           .attr("transform", `translate(${margins.left}, ${margins.top + 5.4 * height / 12})`);
 
         hackyOffCampusGraph
           .transition()
-          .delay(2 * speed)
+          .delay(speed)
           .duration(3 * speed)
           .ease(d3.easeCubicInOut)
           .attr("transform", `translate(${margins.left}, ${height - margins.bottom - offCampusHeight})`);
@@ -643,13 +751,37 @@ async function manageVisualizations() {
 
       case 5:
         box.transition().duration(speed).attr("opacity", 1);
-        // graphLabel.text("1 stick-figure = 50 students");
+
+        // Time Labels
+
+        typicalYearLabel
+          .transition()
+          .duration(speed)
+          .style("font-weight", "normal")
+          .style("font-size", "15px")
+          .style("opacity", .3);
+
+        spring2021Label
+          .transition()
+          .duration(speed)
+          .style("font-weight", "normal")
+          .style("font-size", "15px")
+          .style("opacity", .3);
+
+        fall2021Label
+          .transition()
+          .duration(speed)
+          .style("font-weight", "bold")
+          .style("font-size", "30px")
+          .style("opacity", 1);
+
         onCampusTextNumber
           .text(`${data["pop_f21"]}`)
-          .style("fill", colors.default);
+          .style("fill", "black");
+
         offCampusTextNumber
           .text(`${data["abroad_f21"]}`)
-          .style("fill", "black"); // back to black?
+          .style("fill", colors.abroad); // back to black?
 
         update_data(hacky_dataset, data["abroad_f21"], 0, colors.abroad, true);
 
