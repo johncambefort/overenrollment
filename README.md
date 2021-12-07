@@ -1,1 +1,7 @@
-This branch of the project is the work-in-progress version to be (hopefully) published in the Middlebury Campus newspaper. The final iteration due for the data visualization class is stored on the `main` branch of the repository.
+# Breaking down Overenrollment in Fall 2021 at Middlebury College
+
+This project holds the data and code for a data visualization completed for the Middlebury Campus that breaks down the student population and enrollment before and during the Covid-19 pandemic, up until the Fall 2021. In particular, the visualization debunks a rumor that the Admissions Office enrolled far more first-year students than usual, leading to a scenario of [overenrollment](https://www.middleburycampus.com/article/2021/12/news-in-brief-college-sees-uptick-in-active-covid-19-cases-during-week-of-thanksgiving-break). While it is true that the main campus was overenrolled in the fall of 2021, the first-year class size was roughly the same as that of recent & pre-pandemic years. Check out the visualization for the full picture!
+
+This "[scrolly-telling](https://bost.ocks.org/mike/scroll/)" visualization leverages Javascript's [D3](https://d3js.org/) library to animate the stick-figures and bind the data to the shapes.
+
+An initial version of this visualization was completed with Sabrina Templeton '22 as an assignment for Professor Christopher Andrews' "Information Visualizations" course. After this point, I further developed & refactored the visualization, and made it ready for publishing in the [Middlebury Campus](https://middleburycampus.com) newspaper. This was my first real proper D3 visualization and, while it's not perfect, it served as an introduction to the highly-versatile tool that is D3!
